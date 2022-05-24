@@ -1,0 +1,44 @@
+.app {
+    header {
+        .example-spacer {
+            flex: 1 1 auto;
+        }
+    }
+
+    .table-container {
+        max-width: 1200px;
+        margin: 0 auto;
+
+        table {
+            width: 100%;
+        }
+
+        .mat-form-field {
+            font-size: 14px;
+            width: 100%;
+        }
+
+        td,
+        th {
+            width: 25%;
+        }
+
+        .demo-button-container {
+            padding-bottom: 16px;
+        }
+
+        .demo-button+.demo-button {
+            margin-left: 8px;
+        }
+
+        .footer-container {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+
+            button {
+                margin-left: 20px;
+            }
+        }
+    }
+}

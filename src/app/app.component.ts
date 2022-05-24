@@ -1,12 +1,12 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { UsersService } from './services/users.service';
 
 export interface PeriodicElement {
-  id: string;
+  id: number;
   name: string;
   email: string;
   role: string;
@@ -17,10 +17,11 @@ export interface PeriodicElement {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit, OnInit {
+export class AppComponent implements AfterViewInit {
   displayedColumns: string[] = ['select', 'id', 'name', 'email', 'role', 'action'];
+  // dataToDisplay = [...ELEMENT_DATA];
   dataToDisplay = [];
-  dataSource = new MatTableDataSource<PeriodicElement>();
+  dataSource = new MatTableDataSource<PeriodicElement>(this.dataToDisplay);
   selection = new SelectionModel<PeriodicElement>(true, []);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -32,14 +33,10 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.editable = false;
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit() {
     this.getMembers();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
-
-  ngAfterViewInit() {
-
   }
 
   getMembers() {
@@ -58,6 +55,7 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {

@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { UsersService } from './services/users.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export interface PeriodicElement {
   id: number;
@@ -27,8 +28,11 @@ export class AppComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   editable: boolean;
+  editableIndex: number;
 
-  constructor(private service: UsersService) {
+  profileForm: FormGroup;
+
+  constructor(private service: UsersService, private fb: FormBuilder) {
     this.editable = false;
   }
 
@@ -36,15 +40,20 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.getMembers();
+
+    this.profileForm = this.fb.group({
+      id: [null, Validators.required],
+      name: [null, Validators.required],
+      email: [null, Validators.required],
+      role: [null, Validators.required]
+    });
   }
 
   getMembers() {
     this.service.getMembers().subscribe(response => {
       this.dataToDisplay = [...response];
-      // Assign the data to the data source for the table to render
-      this.dataSource = new MatTableDataSource(this.dataToDisplay);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      
+      this.applyChangesToDataTable();
     });
   }
 
@@ -97,6 +106,27 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.selection.clear();
     }
 
+    this.applyChangesToDataTable();
+  }
+
+  editData(param) {
+    this.editable = true;
+    this.editableIndex = param.id;
+    this.profileForm.setValue(param);
+  }
+
+  saveData(param) {
+    this.dataToDisplay.map( (data, index) => {
+      if (data.id == param.id) {
+        this.dataToDisplay[index] = {...this.profileForm.value}
+      }
+    });
+    this.editable = false;
+
+    this.applyChangesToDataTable();
+  }
+
+  applyChangesToDataTable() {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(this.dataToDisplay);
     this.dataSource.paginator = this.paginator;

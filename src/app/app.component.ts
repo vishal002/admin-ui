@@ -1,5 +1,5 @@
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,7 +18,7 @@ export interface PeriodicElement {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit, OnInit {
+export class AppComponent implements OnInit {
   displayedColumns: string[] = ['select', 'id', 'name', 'email', 'role', 'action'];
   dataToDisplay = [];
   dataSource = new MatTableDataSource<PeriodicElement>(this.dataToDisplay);
@@ -35,8 +35,6 @@ export class AppComponent implements AfterViewInit, OnInit {
   constructor(private service: UsersService, private fb: FormBuilder) {
     this.editable = false;
   }
-
-  ngAfterViewInit() {}
 
   ngOnInit(): void {
     this.getMembers();
@@ -65,7 +63,6 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {

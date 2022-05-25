@@ -14,5 +14,5 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## App Snapsorts
 
-![Home Page](https://github.com/vishal002/chocolade-wereld/blob/main/snapsports/home.jpg?raw=true) 
-![Details Page](https://github.com/vishal002/chocolade-wereld/blob/main/snapsports/details.jpg?raw=true) 
+![Home Page](https://github.com/vishal002/admin-ui/blob/main/snapsports/home.jpg?raw=true) 
+![Edit Page](https://github.com/vishal002/admin-ui/blob/main/snapsports/edit.jpg?raw=true) 

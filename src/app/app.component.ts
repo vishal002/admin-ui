@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,9 +17,8 @@ export interface PeriodicElement {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['select', 'id', 'name', 'email', 'role', 'action'];
-  // dataToDisplay = [...ELEMENT_DATA];
   dataToDisplay = [];
   dataSource = new MatTableDataSource<PeriodicElement>(this.dataToDisplay);
   selection = new SelectionModel<PeriodicElement>(true, []);
@@ -33,10 +32,10 @@ export class AppComponent implements AfterViewInit {
     this.editable = false;
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit() {}
+
+  ngOnInit(): void {
     this.getMembers();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   getMembers() {
@@ -44,6 +43,8 @@ export class AppComponent implements AfterViewInit {
       this.dataToDisplay = [...response];
       // Assign the data to the data source for the table to render
       this.dataSource = new MatTableDataSource(this.dataToDisplay);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 
